@@ -31,6 +31,9 @@ Application::~Application() {
 }
 
 int Application::Run() {
+    int displayIndex = 0; // Primary display
+    SDL_DisplayMode mode;
+
     // Setup SDL
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) !=
         0) {
@@ -120,11 +123,19 @@ int Application::Run() {
     Preferences::Load();
     isStatsWindowVisible = Preferences::GetBool("stats_window");
     isSettingsWindowVisible = Preferences::GetBool("settings_window");
-    isDemoWindowVisible = Preferences::GetBool("demo_window");
+    isDemoWindowVisible = false;
     isVsyncEnabled = Preferences::GetBool("vsync");
     isFramerateCapped = Preferences::GetBool("framerate_capped", true);
-    framerateCap = Preferences::GetFloat("framerate_cap", 60.0f);
 
+    // Setting the framerate dependant of the host screen's refresh rate (SDL method)
+    // If not detected or errors out, defaults to 60
+    if (SDL_GetCurrentDisplayMode(displayIndex, &mode) == 0) {
+        framerateCap = Preferences::GetFloat("framerate_cap", mode.refresh_rate);
+
+    } else {
+        framerateCap = Preferences::GetFloat("framerate_cap", 60.0f);
+    
+    }
     SDL_GL_SetSwapInterval(isVsyncEnabled); // Enable vsync
 
     // Initialize first scene.
