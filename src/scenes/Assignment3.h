@@ -50,4 +50,5 @@ private:
     glm::vec2 gravity = glm::vec2(0, -9.81f);
 
     glm::vec2 baseDragPosition;
+
 };
