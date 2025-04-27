@@ -13,7 +13,7 @@ Disclaimer:
 ChatGPT was briefly used to discuss the wall normals and making sure the ball
 reflects correctly everywhere. Code is my own.
 
-I did not necessarily follow the slides's code (especially regarding drag)
+I did not necessarily follow the slides' code (especially regarding drag)
 because I wanted to try my own thing.
 
 */
