@@ -27,10 +27,11 @@ private:
     glm::mat4 matrix;
     glm::mat4 identity;
 
-    glm::vec2 cameraCenter;
-    float orthographicSize;
-
     bool isCameraWindowVisible;
     bool isMovingCamera;
     glm::vec2 lastMousePos = glm::vec2(0);
+
+protected:
+    float orthographicSize;
+    glm::vec2 cameraCenter;
 };
