@@ -2,33 +2,42 @@
 
 #include "imgui.h"
 #include <core/Colors.h>
+#include <iostream>
 
 Assignment2::Assignment2()
     : circleRadius(1), circlePosition(circlePositionDefault), circleMass(5), circleVelocity(0) {};
 
-void Assignment2::OnEnable() {}
+void Assignment2::OnEnable() {
+    // Kind of a hack because we need to press reset initially
+    Reset();
+
+    this->orthographicSize = 25.0f;
+
+}
 
 void Assignment2::OnDisable() {}
 
 void Assignment2::Update(float deltaTime) {
     glm::vec2 baseForce(0.0f, -gravity.y);
 
-    if (circlePosition.y < circleRadius) {
-        glm::vec2 bottomScreenForce(0.0f, 100.0f);
-        totalAppliedForce = baseForce + bottomScreenForce;
+    if ((circlePosition.y - forceFieldMin.y) < circleRadius) {
+        glm::vec2 bottomScreenForce(2.0f, 100.0f);
+        // totalAppliedForce = baseForce + bottomScreenForce * 0.3f;
     
     } else {
-        totalAppliedForce = baseForce;
+        // totalAppliedForce = baseForce;
     
     }
+    totalAppliedForce = baseForce;
+
     AddForce(totalAppliedForce * circleMass);
 
-    if (circlePosition.x - circleRadius > forceFieldMin.x &&
-        circlePosition.y - circleRadius > forceFieldMin.y &&
-        circlePosition.x + circleRadius < forceFieldMin.x &&
-        circlePosition.y + circleRadius < forceFieldMin.y) {
+    if (circlePosition.x + circleRadius > forceFieldMin.x &&
+        circlePosition.y + circleRadius > forceFieldMin.y &&
+        circlePosition.x - circleRadius < forceFieldMax.x &&
+        circlePosition.y - circleRadius < forceFieldMax.y) {
         AddForce(forceFieldForce * circleMass);
-    
+
     }
 
     circleAcceleration = totalAppliedForce / circleMass;
@@ -56,9 +65,16 @@ void Assignment2::AddForcePush(glm::vec2 forceAmount) {
 
 }
 
+void Assignment2::Reset() {
+    circlePosition = circlePositionDefault;
+    circleVelocity = glm::vec2(0);
+    circleAcceleration = glm::vec2(0);
+
+}
+
 void Assignment2::Draw() {
     Draw::SetColor(Colors::red);
-    Draw::AABB(forceFieldMin, forceFieldMax, true);
+    Draw::AABB(forceFieldMin, forceFieldMax, false);
 
     Draw::SetColor(Colors::white);
     Draw::Circle(circlePosition, circleRadius, true);
@@ -75,9 +91,7 @@ void Assignment2::DrawGUI() {
     ImGui::LabelText("X Position Circle", std::to_string(circlePosition.x).c_str());
 
     if (ImGui::Button("Reset")) {
-        circlePosition = circlePositionDefault;
-        circleVelocity = glm::vec2(0);
-        circleAcceleration = glm::vec2(0);
+        Reset();
 
     }
 
@@ -92,4 +106,5 @@ void Assignment2::DrawGUI() {
     }
 
     ImGui::End();
+
 }

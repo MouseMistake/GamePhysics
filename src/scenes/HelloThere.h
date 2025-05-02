@@ -3,8 +3,17 @@
 #include "core/Simple2DScene.h"
 #include <glm/gtc/matrix_transform.hpp>
 
-// Actually the assignement 1 scene, just initially declared it with that name
-// so now it's just what it is lol
+/*
+
+Code by Niels Van Son (BA6) as Assignment 1 for the Game Physics class.
+
+Note: The class name was just created that way when originally taught how to create a new one.
+It's still Assignment 1.
+
+Disclosure:
+Code is my own. No AI tools were used.
+
+*/
 
 class HelloThere : public Simple2DScene {
 public:

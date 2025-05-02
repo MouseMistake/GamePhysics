@@ -3,6 +3,16 @@
 #include "core/Simple2DScene.h"
 #include <string>
 
+/*
+
+Code by Niels Van Son (BA6) as Assignment 2 for the Game Physics class.
+
+Disclosure:
+Code is my own. GPT was briefly used to fix an issue with the forcefield's dimensions (inverted min and max for AABB def.)
+The force field is the AABB rectangle.
+
+*/
+
 class Assignment2 : public Simple2DScene {
 public:
     Assignment2();
@@ -17,6 +27,8 @@ public:
     void AddForcePush(glm::vec2 forceAmount);
 
     virtual const char* GetName() override { return "Assignment 2"; };
+
+    void Reset();
 
 private:
     float circleRadius;
@@ -37,7 +49,8 @@ private:
     glm::vec2 bottomLeft = glm::vec2(-5, 0);
     glm::vec2 bottomRight = glm::vec2(5, 0);
 
-    glm::vec2 forceFieldForce = glm::vec2(55.0f, 15.0f);
-    glm::vec2 forceFieldMin = glm::vec2(10, 10);
-    glm::vec2 forceFieldMax = glm::vec2(-10, -10);
+    glm::vec2 forceFieldForce = glm::vec2(0.0f, 15.0f);
+    glm::vec2 forceFieldMin = glm::vec2(-10, -10);
+    glm::vec2 forceFieldMax = glm::vec2(10, 10);
+
 };
